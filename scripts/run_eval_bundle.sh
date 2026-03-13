@@ -8,6 +8,10 @@ set -euo pipefail
 #     data/firefly_prepared/test.jsonl \
 #     outputs/h100_main/eval \
 #     outputs/h100_main/trainer_state.json
+#
+# Evaluation runs on a single GPU.
+
+export CUDA_VISIBLE_DEVICES="${CUDA_VISIBLE_DEVICES:-4}"
 
 BASE_MODEL="${1:?missing base model name/path}"
 ADAPTER_PATH="${2:?missing adapter path}"
@@ -17,6 +21,7 @@ TRAINER_STATE="${5:-}"
 
 mkdir -p "$OUT_DIR"
 
+echo "=== Token-level NLL / Perplexity ==="
 python scripts/evaluate_token_loss.py \
   --base-model "$BASE_MODEL" \
   --adapter-path "$ADAPTER_PATH" \
@@ -26,6 +31,7 @@ python scripts/evaluate_token_loss.py \
   --batch-size 2 \
   --max-samples 2000
 
+echo "=== Before / After Generation ==="
 python scripts/generate_before_after.py \
   --base-model "$BASE_MODEL" \
   --adapter-path "$ADAPTER_PATH" \

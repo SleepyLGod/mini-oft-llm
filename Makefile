@@ -1,12 +1,19 @@
-.PHONY: check fmt lint
+.PHONY: check fmt lint setup sync
 
+# ---------- Environment (uv) ----------
+setup:
+	uv venv .venv --python 3.11
+	uv sync --extra dev
+
+sync:
+	uv sync --extra dev
+
+# ---------- Code quality ----------
 check:
 	python -m compileall src scripts
 
 fmt:
-	python -m pip install ruff >/dev/null 2>&1 || true
 	ruff format src scripts
 
 lint:
-	python -m pip install ruff >/dev/null 2>&1 || true
 	ruff check src scripts
