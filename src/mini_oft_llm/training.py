@@ -65,6 +65,15 @@ def load_local_sft_datasets(cfg: ProjectConfig):
         "test": str(data_root / cfg.data.test_file),
     }
     ds = load_dataset("json", data_files=data_files)
+
+    # Keep only the "messages" column so TRL recognises the dataset as
+    # conversational (required for assistant_only_loss=True).
+    keep_cols = {"messages"}
+    for split in ds:
+        extra = set(ds[split].column_names) - keep_cols
+        if extra:
+            ds[split] = ds[split].remove_columns(list(extra))
+
     return ds["train"], ds["validation"], ds["test"]
 
 

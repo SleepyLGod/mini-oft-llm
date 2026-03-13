@@ -47,5 +47,5 @@ training:
   bf16: true
   fp16: false
   packing: false
-  assistant_only_loss: true
+  assistant_only_loss: false
   report_to: none

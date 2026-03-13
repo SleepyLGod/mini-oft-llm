@@ -61,7 +61,7 @@ class TrainingConfig:
     bf16: bool = True
     fp16: bool = False
     packing: bool = False
-    assistant_only_loss: bool = True
+    assistant_only_loss: bool = False
     report_to: str = "none"
 
 

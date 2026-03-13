@@ -191,7 +191,12 @@ def compute_token_level_nll(
             outputs = model(**enc, labels=labels)
             loss = float(outputs.loss.detach().cpu().item())
 
-        valid_tokens = int((labels != -100).sum().detach().cpu().item())
+        # HuggingFace internally shifts labels by 1 for causal LM:
+        #   shift_labels = labels[:, 1:]
+        # so the loss denominator is tokens where labels[:, 1:] != -100.
+        # We must match that count to correctly reconstruct total loss.
+        shifted_labels = labels[:, 1:]
+        valid_tokens = int((shifted_labels != -100).sum().detach().cpu().item())
         total_loss += loss * valid_tokens
         total_tokens += valid_tokens
 

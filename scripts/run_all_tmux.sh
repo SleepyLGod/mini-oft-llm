@@ -79,6 +79,15 @@ if [[ "${TMUX:-}" == *"${SESSION}"* ]] || [[ "${RUN_INSIDE_TMUX:-}" == "1" ]]; t
         outputs/h100_ablation_block16/trainer_state.json
 
     echo ""
+    echo ">>> [7/7] Comparison plot (main vs ablation)"
+    python scripts/plot_training_curves.py --compare \
+        --trainer-state outputs/h100_main/trainer_state.json \
+        --label "block_size=32 (main)" \
+        --trainer-state outputs/h100_ablation_block16/trainer_state.json \
+        --label "block_size=16 (ablation)" \
+        --output-png artifacts/loss_comparison.png
+
+    echo ""
     echo "========================================"
     echo " ALL DONE.  Check outputs/ for results."
     echo "========================================"
