@@ -3,8 +3,11 @@ from __future__ import annotations
 
 import argparse
 import json
+import shutil
 import sys
 from pathlib import Path
+
+from transformers.trainer_utils import get_last_checkpoint
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.append(str(ROOT / "src"))
@@ -35,12 +38,29 @@ def main() -> None:
     cfg = to_project_config(raw_cfg)
     output_dir = Path(cfg.training.output_dir)
     output_dir.mkdir(parents=True, exist_ok=True)
+    run_summary_path = output_dir / "run_summary.json"
+
+    if run_summary_path.exists():
+        with run_summary_path.open("r", encoding="utf-8") as f:
+            summary = json.load(f)
+        print(json.dumps({"status": "already_complete", **summary}, indent=2))
+        return
 
     dump_yaml(raw_cfg, output_dir / "resolved_config.yaml")
 
     trainer, _, _, _ = build_sft_trainer(cfg)
 
-    train_result = trainer.train()
+    last_checkpoint = get_last_checkpoint(str(output_dir))
+    resume_from_checkpoint = None
+    if last_checkpoint:
+        resume_from_checkpoint = last_checkpoint
+        print(json.dumps({
+            "status": "resuming",
+            "output_dir": str(output_dir),
+            "checkpoint": last_checkpoint,
+        }, indent=2))
+
+    train_result = trainer.train(resume_from_checkpoint=resume_from_checkpoint)
     trainer.log_metrics("train", train_result.metrics)
     trainer.save_metrics("train", train_result.metrics)
     trainer.save_state()
@@ -48,6 +68,7 @@ def main() -> None:
     # Save adapter BEFORE evaluate so the weights are on disk even if
     # evaluation is interrupted (e.g. Ctrl-C).
     final_adapter_dir = output_dir / "final_adapter"
+    shutil.rmtree(final_adapter_dir, ignore_errors=True)
     trainer.save_model(str(final_adapter_dir))
 
     eval_metrics = trainer.evaluate()
