@@ -12,16 +12,56 @@ venv/
 .mypy_cache/
 .ruff_cache/
 
-# Training artifacts
-artifacts/*
-!artifacts/.gitkeep
-logs/*
-!logs/.gitkeep
-outputs/*
-!outputs/.gitkeep
-data/
-
 # OS/editor
 .DS_Store
 .vscode/
 .idea/
+
+# Logs
+logs/
+!logs/.gitkeep
+
+# ============================================================
+# Large binary / dataset files – always ignored
+# ============================================================
+
+# Dataset JSONL splits are too large for GitHub
+# (train=2.1 GB, test/val=~115 MB each).
+# metadata.json is small and IS tracked.
+data/firefly_prepared/*.jsonl
+
+# Checkpoint directories contain optimizer.pt / rng_state files
+# (200–400 MB each). Final adapters in final_adapter/ are kept.
+outputs/*/checkpoint-*/
+
+# Model adapter weights and large tokenizer – binary files, not for git.
+# Transfer locally via SCP/rsync instead.
+# Small configs (adapter_config.json, tokenizer_config.json,
+# chat_template.jinja, README.md) are still tracked.
+*.safetensors
+outputs/*/final_adapter/tokenizer.json
+outputs/*/final_adapter/training_args.bin
+
+# Smoke test run – sanity check only, not needed in report.
+outputs/h100_smoke100/
+
+# ============================================================
+# REPORT UPLOAD MODE – currently ACTIVE
+#
+# outputs/, artifacts/, and data/firefly_prepared/metadata.json
+# are tracked so they can be pushed to GitHub for local report
+# writing. Adapter weights (.safetensors) are included because
+# they are under GitHub's 100 MB per-file limit.
+#
+# To STOP tracking these after the report is done:
+#   1. Uncomment the five BLOCK lines below
+#   2. Run:  git rm -r --cached outputs/ artifacts/ data/
+#   3. Commit the result
+# ============================================================
+
+# -- BLOCK LINES (uncomment to stop tracking outputs/artifacts/data) --
+# outputs/*
+# !outputs/.gitkeep
+# artifacts/*
+# !artifacts/.gitkeep
+# data/

@@ -1,0 +1,16 @@
+{
+  "num_samples": 2000,
+  "base": {
+    "num_texts": 2000,
+    "num_tokens": 375810,
+    "mean_nll": 3.261898119194074,
+    "perplexity": 26.099029225041793
+  },
+  "oft": {
+    "num_texts": 2000,
+    "num_tokens": 375810,
+    "mean_nll": 1.9769546440953707,
+    "perplexity": 7.220719806274967
+  },
+  "delta_mean_nll": -1.2849434750987034
+}

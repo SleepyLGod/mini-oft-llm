@@ -1,0 +1,14 @@
+{
+  "dataset_name": "YeungNLP/firefly-train-1.1M",
+  "dataset_split": "train",
+  "total_raw": 1649399,
+  "total_kept": 1649399,
+  "total_skipped": 0,
+  "train_size": 1484455,
+  "val_size": 82465,
+  "test_size": 82479,
+  "train_ratio": 0.9,
+  "val_ratio": 0.05,
+  "seed": 42,
+  "max_samples": null
+}
