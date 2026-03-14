@@ -20,6 +20,18 @@ from pathlib import Path
 
 import matplotlib.pyplot as plt
 
+plt.rcParams.update(
+    {
+        "font.family": "serif",
+        "font.serif": ["Times New Roman", "Times", "DejaVu Serif"],
+        "axes.titlesize": 12,
+        "axes.labelsize": 11,
+        "legend.fontsize": 9,
+        "xtick.labelsize": 9,
+        "ytick.labelsize": 9,
+    }
+)
+
 
 # ---------------------------------------------------------------------------
 # Helpers

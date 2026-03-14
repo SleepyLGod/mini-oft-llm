@@ -31,7 +31,7 @@ logs/
 data/firefly_prepared/*.jsonl
 
 # Checkpoint directories contain optimizer.pt / rng_state files
-# (200–400 MB each). Final adapters in final_adapter/ are kept.
+# (200–400 MB each). Final-adapter configs are kept.
 outputs/*/checkpoint-*/
 
 # Model adapter weights and large tokenizer – binary files, not for git.
@@ -49,9 +49,9 @@ outputs/h100_smoke100/
 # REPORT UPLOAD MODE – currently ACTIVE
 #
 # outputs/, artifacts/, and data/firefly_prepared/metadata.json
-# are tracked so they can be pushed to GitHub for local report
-# writing. Adapter weights (.safetensors) are included because
-# they are under GitHub's 100 MB per-file limit.
+# can be tracked for report writing when needed.
+# NOTE: adapter weights (*.safetensors) remain ignored by design
+# to keep the repo lightweight.
 #
 # To STOP tracking these after the report is done:
 #   1. Uncomment the five BLOCK lines below
@@ -65,3 +65,13 @@ outputs/h100_smoke100/
 # artifacts/*
 # !artifacts/.gitkeep
 # data/
+
+# LaTeX temporary build files (report/)
+report/*.aux
+report/*.bbl
+report/*.blg
+report/*.log
+report/*.out
+report/*.synctex.gz
+report/*.fdb_latexmk
+report/*.fls

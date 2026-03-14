@@ -24,7 +24,14 @@ mini-oft-llm/
 ├── prompts/
 │   └── eval_prompts_zh.jsonl        # 50 fixed eval prompts
 ├── report/
-│   └── REPORT_TEMPLATE.md
+│   ├── report.tex                   # final 3-page LaTeX report source
+│   ├── report.pdf                   # compiled report (camera-ready draft)
+│   ├── references.bib
+│   ├── neurips_2023.sty
+│   ├── build_figures.py             # regenerate report figures
+│   └── figures/
+│       ├── loss_comparison.png
+│       └── metric_bars.png
 ├── scripts/
 │   ├── check_environment.py
 │   ├── run_data_prep.py
@@ -164,9 +171,37 @@ outputs/h100_main/
     └── loss_curve.png          # train / eval loss plot
 ```
 
+## Latest Verified Results
+
+All values below are from the current checked-in evaluation artifacts (2000-sample test slice):
+
+| Model | Mean NLL | PPL | Final eval\_loss |
+|------|---------:|----:|-----------------:|
+| Base (no finetuning) | 3.2619 | 26.0990 | - |
+| OFT main (`block_size=32`) | **1.9770** | **7.2207** | **1.7879** |
+| OFT ablation (`block_size=16`) | 1.9988 | 7.3803 | 1.8102 |
+
+Relative to base, the main OFT run improves NLL by **39.39%** and PPL by **72.33%**.
+
 ## Report (3 Pages, English)
 
-Use `report/REPORT_TEMPLATE.md` as a starting point. Include:
+This repo now uses a full LaTeX report workflow under `report/`.
+
+Build figures and compile:
+
+```bash
+# Regenerate report figures from current artifacts/outputs
+python report/build_figures.py
+
+# Compile PDF
+cd report
+pdflatex report.tex
+bibtex report
+pdflatex report.tex
+pdflatex report.tex
+```
+
+The report includes:
 
 1. Setup and method (OFT configuration)
 2. Training / validation loss curves
@@ -184,7 +219,7 @@ This repo satisfies all requirements from `instructions.md`:
 - ✅ Training loss curves
 - ✅ Final performance (NLL/perplexity) and qualitative before-vs-after results
 - ✅ GitHub repo with README
-- ✅ 3-page report template included
+- ✅ 3-page LaTeX report source and PDF included
 
 ## Reproducibility
 
@@ -192,3 +227,10 @@ This repo satisfies all requirements from `instructions.md`:
 - Eval prompts: `prompts/eval_prompts_zh.jsonl` (50 fixed prompts)
 - Each run saves `resolved_config.yaml` automatically
 - Run smoke test first when switching machines
+
+## Submission Checklist
+
+- `README.md` is up to date and includes run/compile commands.
+- `report/report.tex` compiles to a 3-page PDF (`report/report.pdf`).
+- Report contains loss curves + final quantitative results + before/after qualitative evidence.
+- No large checkpoints or raw dataset JSONL files are committed.
