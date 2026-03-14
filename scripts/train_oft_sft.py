@@ -45,12 +45,14 @@ def main() -> None:
     trainer.save_metrics("train", train_result.metrics)
     trainer.save_state()
 
+    # Save adapter BEFORE evaluate so the weights are on disk even if
+    # evaluation is interrupted (e.g. Ctrl-C).
+    final_adapter_dir = output_dir / "final_adapter"
+    trainer.save_model(str(final_adapter_dir))
+
     eval_metrics = trainer.evaluate()
     trainer.log_metrics("eval", eval_metrics)
     trainer.save_metrics("eval", eval_metrics)
-
-    final_adapter_dir = output_dir / "final_adapter"
-    trainer.save_model(str(final_adapter_dir))
 
     summary = {
         "output_dir": str(output_dir),
