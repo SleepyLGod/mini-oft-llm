@@ -16,7 +16,6 @@ Parameter-efficient finetuning with **OFT (Orthogonal Finetuning)** on a pretrai
 ```text
 mini-oft-llm/
 ├── configs/
-│   ├── base.yaml                    # base config template
 │   ├── h100_smoke100.yaml           # 100-step smoke test
 │   ├── h100_main.yaml               # main experiment
 │   ├── h100_ablation_block16.yaml   # ablation (block_size=16)
@@ -26,24 +25,10 @@ mini-oft-llm/
 ├── report/
 │   ├── report.tex                   # final 3-page LaTeX report source
 │   ├── report.pdf                   # compiled report (camera-ready draft)
-│   ├── references.bib
-│   ├── neurips_2023.sty
-│   ├── build_figures.py             # regenerate report figures
-│   └── figures/
-│       ├── loss_comparison.png
-│       └── metric_bars.png
+│   └── ...
 ├── scripts/
-│   ├── check_environment.py
-│   ├── run_data_prep.py
-│   ├── train_oft_sft.py
-│   ├── evaluate_token_loss.py
-│   ├── generate_before_after.py
-│   ├── plot_training_curves.py
-│   ├── run_h100_smoke.sh
-│   ├── run_h100_main.sh
-│   ├── run_h100_ablation.sh
-│   ├── run_eval_bundle.sh
-│   └── run_all_tmux.sh             # ★ one-click full pipeline (tmux)
+│   ├── ...
+│   └── run_all_tmux.sh             # one-click full pipeline (tmux)
 ├── src/mini_oft_llm/
 │   ├── config.py
 │   ├── data.py
@@ -214,12 +199,12 @@ The report includes:
 
 This repo satisfies all requirements from `instructions.md`:
 
-- ✅ OFT-based PEFT on a pretrained model (Qwen2.5-7B)
-- ✅ Downstream task finetuning (Chinese instruction following)
-- ✅ Training loss curves
-- ✅ Final performance (NLL/perplexity) and qualitative before-vs-after results
-- ✅ GitHub repo with README
-- ✅ 3-page LaTeX report source and PDF included
+- OFT-based PEFT on a pretrained model (Qwen2.5-7B)
+- Downstream task finetuning (Chinese instruction following)
+- Training loss curves
+- Final performance (NLL/perplexity) and qualitative before-vs-after results
+- GitHub repo with README
+- 3-page LaTeX report source and PDF included
 
 ## Reproducibility
 
