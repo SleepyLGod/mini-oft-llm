@@ -26,6 +26,7 @@
 
 \begin{document}
 \maketitle
+\noindent\textbf{Project repository:} \url{https://github.com/SleepyLGod/mini-oft-llm.git}
 
 \section{Introduction}
 This report studies Orthogonal Finetuning (OFT) for Chinese instruction-following supervised finetuning on \texttt{Qwen2.5-7B-Instruct}. The assignment requires training-loss curves and final quantitative and/or before-vs-after qualitative outcomes. The report is designed to satisfy those requirements with evidence-driven claims only.
@@ -86,7 +87,7 @@ OFT (main) improves over base by 39.39\% in NLL and 72.33\% in PPL. Against abla
 
 \begin{figure}[t]
   \centering
-  \includegraphics[width=0.96\linewidth,height=0.17\textheight,keepaspectratio]{figures/metric_bars.png}
+  \includegraphics[width=0.96\linewidth,height=0.20\textheight,keepaspectratio]{figures/metric_bars.png}
   \caption{Token-level NLL/PPL bars for base, main, and ablation, showing a large base-to-OFT gap and a smaller but consistent main-vs-ablation gap.}
   \label{fig:metric_bars}
 \end{figure}
