@@ -1,4 +1,4 @@
-# OFT Mini Project: Chinese Instruction Tuning with Qwen2.5-7B
+# Mini OFT: Chinese Instruction Tuning with Qwen2.5-7B
 
 Parameter-efficient finetuning with **OFT (Orthogonal Finetuning)** on a pretrained foundation model for a downstream task.
 
@@ -61,7 +61,7 @@ tmux kill-session -t oft-train  # kill
 
 ## Environment Setup
 
-### Option A – uv (recommended)
+**Option A – uv (recommended)**
 
 ```bash
 uv venv .venv --python 3.11
@@ -69,7 +69,7 @@ source .venv/bin/activate
 uv sync --extra dev
 ```
 
-### Option B – plain pip
+**Option B – plain pip**
 
 ```bash
 python -m venv .venv
@@ -78,7 +78,7 @@ pip install --upgrade pip
 pip install -e ".[dev]"
 ```
 
-> If your CUDA image requires a specific torch build, install torch first.
+**P.S.** If your CUDA image requires a specific torch build, install torch first.
 
 ## Step-by-Step Manual Execution
 
@@ -168,7 +168,7 @@ All values below are from the current checked-in evaluation artifacts (2000-samp
 
 Relative to base, the main OFT run improves NLL by **39.39%** and PPL by **72.33%**.
 
-## Report (3 Pages, English)
+## Report
 
 This repo now uses a full LaTeX report workflow under `report/`.
 
@@ -195,27 +195,9 @@ The report includes:
 5. Ablation analysis (block_size 32 vs 16)
 6. Reproducibility details
 
-## Assignment Alignment
-
-This repo satisfies all requirements from `instructions.md`:
-
-- OFT-based PEFT on a pretrained model (Qwen2.5-7B)
-- Downstream task finetuning (Chinese instruction following)
-- Training loss curves
-- Final performance (NLL/perplexity) and qualitative before-vs-after results
-- GitHub repo with README
-- 3-page LaTeX report source and PDF included
-
 ## Reproducibility
 
 - Dataset split seed: `42`
 - Eval prompts: `prompts/eval_prompts_zh.jsonl` (50 fixed prompts)
 - Each run saves `resolved_config.yaml` automatically
 - Run smoke test first when switching machines
-
-## Submission Checklist
-
-- `README.md` is up to date and includes run/compile commands.
-- `report/report.tex` compiles to a 3-page PDF (`report/report.pdf`).
-- Report contains loss curves + final quantitative results + before/after qualitative evidence.
-- No large checkpoints or raw dataset JSONL files are committed.
